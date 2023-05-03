@@ -1,8 +1,6 @@
 import "./ScientificMode.css"
 import ButtonsRow from "./ButtonsRow/ButtonsRow";
 import React from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBars} from "@fortawesome/free-solid-svg-icons";
 const ScientificMode = () => {
     const OPERATORS = ["+", "-", "*", "/"];
     let RADIAN = true;
@@ -28,13 +26,13 @@ const ScientificMode = () => {
         {
             name: "square-root",
             symbol: "√",
-            formula: "Math.sqrt",
+            formula: "Math.sqrt(",
             type: "math_function",
         },
         {
             name: "square",
             symbol: "x²",
-            formula: "POWER",
+            formula: POWER,
             type: "math_function",
         },
         {
@@ -166,19 +164,19 @@ const ScientificMode = () => {
         {
             name: "exp",
             symbol: "exp",
-            formula: "Math.exp",
+            formula: "Math.exp(",
             type: "math_function",
         },
         {
             name: "ln",
             symbol: "ln",
-            formula: "Math.log",
+            formula: "Math.log(",
             type: "math_function",
         },
         {
             name: "log",
             symbol: "log",
-            formula: "Math.log10",
+            formula: "Math.log10(",
             type: "math_function",
         },
         {
@@ -293,8 +291,8 @@ const ScientificMode = () => {
             data.operation.push(newSymbol);
             data.formula.push(newFormula);
             if(name === "square"){
-                data.operation.push("2");
-                data.formula.push("2");
+                data.operation.push("2)");
+                data.formula.push("2)");
             }
         }
         else if(type === "key"){
@@ -325,6 +323,7 @@ const ScientificMode = () => {
             let POWER_SEARCH_RESULT = searchArray(data.formula, POWER);
             let FACTORIAL_SEARCH_RESULT = searchArray(data.formula, FACTORIAL);
 
+            console.log(data.formula)
             const BASES = powerBaseGetter(data.formula, POWER_SEARCH_RESULT);
             BASES.forEach(base => {
                 let toReplace = base + POWER;
@@ -337,6 +336,8 @@ const ScientificMode = () => {
                 formulaStr = formulaStr.replace(factorial.toReplace, factorial.replacement);
             })
             try {
+                console.log(formulaStr)
+                console.log(BASES)
                 result = eval(formulaStr);
             }catch(error) {
                 if(error instanceof SyntaxError)
@@ -346,7 +347,8 @@ const ScientificMode = () => {
                     return;
                 }
             }
-
+            console.log(data.operation);
+            console.log(data.formula);
             ans = result;
             data.operation = [result];
             data.formula = [result];
@@ -491,7 +493,7 @@ const ScientificMode = () => {
         <>
             <div className="calculator">
                 <div className="calc-container">
-                    <div className="mode"><FontAwesomeIcon icon={faBars}/> Scientific</div>
+                    <div className="mode">Scientific</div>
                     <div className="output">
                         <div className="operation">
                             <div className="value"></div>
